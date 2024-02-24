@@ -1,0 +1,551 @@
+body{margin-top:20px;}
+
+.author{
+  display:inline-block;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:url(https://appletoolbox.com/wp-content/uploads/2017/08/Green-Plus-Sign-550x550.png) center no-repeat;
+  background-size:cover;
+  box-shadow:0 2px 3px rgba(0,0,0,0.3);
+  margin-bottom:3px
+}
+.info h4, .meta{
+  font-size:0.7em 
+}
+.meta{
+     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.meta-child{
+	    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.meta-text{
+	    margin-top: -8px;
+}
+.masthead {
+    padding: 0rem 0 7rem;
+    position: relative;  
+    background-color: #dd3d31;
+    background-image: url(https://startbootstrap.com/assets/img/overlay.svg), linear-gradient(45deg, #dd3d31 0%, #d22f23 100%);
+    background-size: cover;
+    z-index: 0;
+    min-height: 100vh;
+}   
+
+.start{
+    width:200px; 
+    height:200px;  
+    border-radius: 50% !important;
+    /*margin-left:50%;*/ 
+}
+
+.startLogo{
+    height:100px;
+    margin-top: 30px;
+    margin-left: 21px;
+}
+
+.startText{
+	    position: absolute;
+    top: 96px;
+    left: 82px;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+}
+
+.card-body{
+	cursor: pointer;
+}
+
+.masthead svg.wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0
+}
+
+.masthead h1 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.1;
+    z-index: 1
+}
+
+.masthead h2 {
+    color: rgba(255, 255, 255, .6);
+    font-weight: 600;
+    z-index: 1;
+    font-size: 1.2rem
+}
+
+.masthead a {
+    color: rgba(255, 255, 255, .8);
+    text-decoration: underline;
+    z-index: 1
+}
+
+.masthead a:hover {
+    color: #fff
+}
+
+.masthead a:active {
+    text-decoration: none
+}
+
+@media(min-width:992px) {
+    .masthead h1 {
+        font-size: 3rem
+    }
+    .masthead h2 {
+        font-size: 1.5rem
+    }
+}
+
+.masthead .masthead-cards {
+    position: relative;
+    z-index: 1
+}
+
+.masthead .masthead-cards .shape {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .3);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%
+}
+
+.masthead .masthead-cards .card {
+    opacity: 1;
+    font-size: .8rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: .05rem;
+    color: #212529;
+    transition: .15s all
+}
+
+.masthead .masthead-cards .card:hover {
+    margin-top: -.25rem;
+    margin-bottom: .25rem
+}
+
+.masthead .masthead-cards .card:active {
+    margin-top: inherit;
+    margin-bottom: inherit
+}
+
+.masthead .masthead-cards .card.border-bottom-blue:hover {
+    color: #2092ed
+}
+
+.masthead .masthead-cards .card.border-bottom-green:hover {
+    color: #28a745
+}
+
+.masthead .masthead-cards .card.border-bottom-red:hover {
+    color: #dd3d31
+}
+
+.masthead .masthead-cards .card.border-bottom-yellow:hover {
+    color: #ffc107
+}
+
+.masthead-page {
+    padding: 1rem 0 4rem
+}
+
+@media(min-width:992px) {
+    .masthead-page h1 {
+        font-size: 2.5rem
+    }
+}
+
+.border-bottom-yellow {
+    border-color: #ffc107!important;
+}
+
+.border-bottom-red {
+    border-color: #dd3d31!important;
+}
+
+.border-bottom-blue {
+    border-color: #2092ed!important;
+}
+
+.border-bottom-green {
+    border-color: #28a745!important;
+}
+
+.border-bottom-blue, .border-bottom-green, .border-bottom-red, .border-bottom-yellow {
+    border-bottom: .4rem solid!important;
+}
+.shadow-lg {
+    box-shadow: 0 2rem 1.5rem -1.5rem rgba(33,37,41,.15),0 0 1.5rem .5rem rgba(33,37,41,.05)!important;
+}
+.border-0 {
+    border: 0!important;
+}
+
+
+/* Progress bar */
+#leetcodeStyleProgressBarContainer {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative; /* For absolute positioning inside */
+}
+
+.leetcodeProgressSegment {
+    height: 20px;
+    float: left;
+    position: relative; /* For text positioning */
+}
+
+.leetcodeProgressSegment span {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    line-height: 20px; /* Same as the height of the segment */
+}
+
+#leetcodeEasyProgress { background-color: #2ecc71; } /* Green for easy */
+#leetcodeMediumProgress { background-color: #f1c40f; } /* Yellow for medium */
+#leetcodeHardProgress { background-color: #e74c3c; } /* Red for hard */
+
+
+/* Modal Styles */
+/* .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+*/
+.modal-footer {
+    margin-top: 40px;
+} 
+/* Modal base styles */
+.modal {
+    display: none; /* Hidden by default */ 
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */ 
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(31,32,41,.75);/* Fallback color */
+    
+}
+
+/* Modal Content Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80% !important; /* Could be more or less, depending on screen size */
+    border-radius: 13px !important;
+}
+ 
+/* The Close Button */
+.modal-footer button {
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    float: right;
+        
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 15px; /* Adjust as needed */
+    font-size: 35px; /* Adjust as needed */
+    font-weight: bold;
+    cursor: pointer;    
+}
+
+
+ 
+/* Password input field */
+.solution{
+	max-height:50vh;
+	overflow: scroll;
+}
+
+.showQuestionDescription{
+    max-height: 40vh;
+}
+
+/* Label styling */
+label {
+    margin-bottom: 10px;
+    display: block;
+    font-size: 16px;
+}
+
+/* The Modal Heading */
+.modal-content h4 {
+    color: #333;
+}
+
+@media(max-width:540px) {
+    .modal-content{
+		width:90% !important;
+	}
+}
+
+
+/*Emoji Container */
+
+.emoji-master{
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 100%; 
+} 
+
+.dvicon {   
+    width: fit-content; /* Adjusted to fit content */
+    height: 85px;
+    margin: 0px auto;
+    position: relative;
+    background-color: #FFF;
+    box-shadow: 0px 4px 8px rgba(176, 176, 176, 1);
+    border-radius: 50px; /* Simplified border-radius for all corners */
+    display: flex; /* Using flexbox for alignment */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    padding: 10px 20px 10px 20px; /* Added padding for spacing */
+}
+
+.dvcenter {
+    width: auto; /* Adjusted to fit content */
+    margin: 0 auto; /* Center the container */
+    position: relative;
+}
+
+.icon {
+    cursor: pointer;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    padding: 6px;
+    position: relative;
+}
+
+.icon svg {
+    transform: scale(1.1);
+    transform-origin: bottom;
+    transition: all .2s ease-in-out;
+}
+
+.icon:hover svg {
+    transform: scale(1.4);
+    transform-origin: bottom;
+    transition: all 180ms cubic-bezier(.3, 0, .2, 1);
+}
+
+.emoji-container {
+    width: 60px; /* Adjusted width to match .icon */
+    height: 60px; /* Adjusted height to match .icon */
+    display: inline-block;
+    position: relative;
+    margin: 0 5px; /* Added margin for spacing */
+    text-align: center;
+    transition: 0.3s; 
+}
+
+.emoji-label {
+    display: block; /* Make the label a block element */
+     margin-top: 60px; /* Space above the label */
+    font-size: 15px; /* Font size for the label */
+    color: #333; /* Text color for the label */
+    position: relative;
+    z-index: 100;
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+.emoji-container img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: opacity 0.2s ease;
+    cursor: pointer; 
+}
+
+.emoji-container .static-emoji {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+.emoji-container .animated-emoji {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    margin-bottom: 3px;
+}
+
+.emoji-container_abc:hover{
+    width:80px;
+    height:80px;/* Hide static image on hover */
+}
+ 
+ @media(max-width:540px) {
+    .emoji-container{
+		width:40px !important;
+		height:40px !important;
+	}
+	
+	.emoji-label{
+		margin-top:45px;
+	}
+}
+
+/* Notification Toast */
+
+
+.toast {
+    position: fixed;
+    top: 25px;
+    right: 20px;
+    border-radius: 12px;
+    min-width:300px;
+    background: #fff; 
+    padding: 20px 35px 20px 25px;
+    box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* transform: translateX(calc(100% + 30px)); */
+    transition: all 2s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    opacity: 1;
+    display: none;  
+  }
+  
+  
+  .toast.active {
+    transform: translateX(0%);
+    /* display: block; */ 
+  }
+  
+  .toast .toast-content { 
+    display: flex;
+    align-items: center;
+  }
+  
+  .toast-content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    min-width: 35px;
+    background-color: #2770ff;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+  }
+  
+  .toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+  }
+  
+  .message .text {
+    font-weight: 400;
+    color: #666666;
+  }
+  
+  .message .text.text-1 {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .toast .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+    font-family: cursive; 
+  }
+  
+  .toast .close:hover {
+    opacity: 1;
+  }
+  
+  .toast .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    transition:5s;
+   
+  }
+  
+  .toast .progress:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #2770ff;
+  }
+  
+  .progress.active:before {
+    animation: progress 5s linear forwards;
+  }
+  
+  @keyframes progress {
+    100% {
+      right: 100%;
+    }
+  }
+  
+  
+  .toast.active ~ button {
+    pointer-events: none;
+  }
+  

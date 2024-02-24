@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .emoji-container_abc:hover .static-emoji_abc {
+            opacity: 0;
+        }
+
+        .emoji-container_abc:hover .animated-emoji_abc {
+            opacity: 1;
+        }
+
+        .progress_abc.active_abc::before {
+            animation: 5s linear 0s 1 normal forwards running progress;
+        }
+
+        .toast_abc .progress_abc::before {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(39, 112, 255);
+        }
+
+        .toast_abc .close_abc:hover {
+            opacity: 1;
+        }
+    </style>
+    <script src="../config/config.js"></script>
+    <script src="../config/cookies.js"></script>
+    <script>
+        checkCookieAndRedirect("auth", BASE_URL_UI + "/auth/auth.html");
+    </script>
+</head>
+
+<body style="margin:0px; padding:0px;">
+    <div id="header-component"></div>
+    <div id="body-component"></div>
+    <div id="footer-component"></div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="module">
+        import { ModularLibrary } from 'https://rajreeshu.github.io/modularFrontend/ModularLibrary.js';
+
+        const headerModularLibrary = new ModularLibrary('123', '#header-component');
+        headerModularLibrary.modifyExternalStylesheet(BASE_URL_UI + '/header/header.css');
+        // 
+        function checkAndModifyContent() {
+
+            document.getElementById('homeLogo').setAttribute('href', BASE_URL_UI);
+        }
+        headerModularLibrary.loadComponentAndModify(BASE_URL_UI + '/header/header.html', checkAndModifyContent);
+
+        const modularLibrary = new ModularLibrary('abc', '#body-component');
+        modularLibrary.modifyExternalStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        modularLibrary.modifyExternalStylesheet('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+        modularLibrary.modifyExternalStylesheet('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+        modularLibrary.modifyExternalStylesheet(BASE_URL_UI + '/reviseSection/body.css');
+        modularLibrary.loadComponentAndModify(BASE_URL_UI + '/reviseSection/body.html', loadProgress);
+
+
+    </script>
+
+    <script>
+        // Get the URLSearchParams object from the current URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryValue = urlParams.get('category');
+        if(categoryValue == null || categoryValue==""){
+            window.location.href = `${BASE_URL_UI}/home/home.html`;
+        }
+
+        var userId = getCookie("userId");
+        // Function to update progress bars
+        function updateLeetcodeStyleProgressBar(easyCount, mediumCount, hardCount) {
+            var totalCount = easyCount + mediumCount + hardCount;
+
+            var easyWidth = (easyCount / totalCount) * 100;
+            var mediumWidth = (mediumCount / totalCount) * 100;
+            var hardWidth = (hardCount / totalCount) * 100;
+
+            document.getElementById('leetcodeEasyProgress').style.width = easyWidth + '%';
+            document.getElementById('leetcodeMediumProgress').style.width = mediumWidth + '%';
+            document.getElementById('leetcodeHardProgress').style.width = hardWidth + '%';
+
+            // Update text
+            document.getElementById('easyCountText').innerText = easyCount;
+            document.getElementById('mediumCountText').innerText = mediumCount;
+            document.getElementById('hardCountText').innerText = hardCount;
+        }
+
+        // Function to show the modal
+        function showModal() {
+
+            openRandomQuestionModal();
+
+            // var modal = document.getElementById("questionModal");
+            // modal.style.display = "block";
+        }
+
+        function addQuestionModal() {
+            document.getElementById("addQuestionModal").style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("questionModal").style.display = "none";
+            document.getElementById("solutionMaster").style.display = 'none';
+
+        }
+
+        function closeAddQuestionModal() {
+            document.getElementById("addQuestionModal").style.display = "none";
+        }
+
+        // Function to toggle password visibility
+        function toggleAnswerVisibility() {
+            var solution = document.getElementById("solutionMaster");
+            console.log(solution.style.display);
+            solution.style.display = solution.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function loadProgress(mutationsList, observer) {
+            console.log('Checking progress');
+
+            // Perform the update only if specific conditions are met
+            if (document.getElementById('leetcodeEasyProgress') &&
+                document.getElementById('leetcodeMediumProgress') &&
+                document.getElementById('leetcodeHardProgress')) {
+
+
+
+                // updateLeetcodeStyleProgressBar(que[0], que[1], que[2]);
+                fetchQuestionCounts();
+                console.log("inside Load Progress")
+
+                // Add event listener to Start button, if not already added
+                document.querySelector('.start_abc').addEventListener('click', showModal);
+                document.querySelector('#addQuestion').addEventListener('click', addQuestionModal);
+
+                return true; // Return true to disconnect the observer
+            }
+            return false; // Return false to keep observing
+        }
+
+
+        function saveQuestion() {
+            console.log('saveQuestion');
+            var questionTitle = document.getElementById('questionTitle').value;
+            var questionDescription = document.getElementById('questionInput').value;
+            var solution = document.getElementById('solutionInput').value;
+
+            var questionData = {
+                title: questionTitle,
+                description: questionDescription,
+                solution: solution,
+                category: categoryValue,
+                label: "HARD"
+            };
+
+
+
+            // Base64 encode the credentials
+
+
+            fetch(`${BASE_URL_SERVER}/questions/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+                body: JSON.stringify(questionData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        console.error('Error status:', response.status);
+                        return response.text().then(text => { throw new Error(text) });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Question saved successfully', data);
+                    closeAddQuestionModal();
+                    showToastAlert("Saved", "Question saved successfully.", "Success");
+                    document.getElementById('questionTitle').value = "";
+                    document.getElementById('questionInput').value = "";
+                    document.getElementById('solutionInput').value = "";
+                    fetchQuestionCounts()
+                })
+                .catch(error => {
+                    console.error('Error saving question:', error);
+                });
+        }
+        let randomQuestionNo = 0;
+        function openRandomQuestionModal() {
+
+            fetch(`${BASE_URL_SERVER}/questions/random-question/${categoryValue}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+            })
+                .then(response => {
+                    console.log(response);
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data);
+                    randomQuestionNo = data.id;
+                    document.getElementById('questionText').innerText = data.title; // Assuming 'title' is a field of your Question object
+                    document.getElementById('solution').innerText = data.solution; // Assuming 'solution' is a field of your Question object
+                    document.getElementById('showQuestionDescription').innerText = data.description;
+                    document.getElementById('questionModal').style.display = 'block'; // Show the modal
+                })
+                .catch(error => console.error('Error fetching question:', error));
+        }
+
+        function updateQuestionLabel(newLabel) {
+            fetch(BASE_URL_SERVER + `/questions/updateLabel/${randomQuestionNo}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+                body: JSON.stringify(newLabel),
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Handle the response data
+                    fetchQuestionCounts()
+                    showToastAlert("Updated", "Question Status Successfully Updated", "Success");
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function fetchQuestionCounts() {
+
+            // URL of the endpoint
+            const url = `${BASE_URL_SERVER}/questions/count/${categoryValue}`;
+            console.log("inside fetchQUestionCount ", url)
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+            })
+                .then(response => {
+                    // Check if the response is successful
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the data (the counts)
+                    console.log('Question counts:', data);
+
+                    updateLeetcodeStyleProgressBar(data['EASY'], data['MEDIUM'], data['HARD']);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Fetching question counts failed:', error);
+                });
+            console.log("after fetch");
+        }
+
+        function showToastAlert(heading, text, type) {
+            progress = document.querySelector(".progress_abc");
+            let timer1 = 0, timer2 = 0;
+
+            document.querySelector("#alertHeading").innerHTML = heading;
+            document.querySelector("#alertText").innerHTML = text;
+
+            $(".toast_abc").fadeIn("slow");
+            progress.style.width = "0%";
+
+            timer1 = setTimeout(() => {
+                $(".toast_abc").fadeOut();
+
+            }, 4000); //1s = 1000 milliseconds
+
+            timer2 = setTimeout(() => {
+                progress.style.width = "100%";
+            }, 5200);
+        }
+
+        function closeAlertToast() {
+            console.log("close click")
+            progress = document.querySelector(".progress_abc");
+            $(".toast_abc").hide();
+            progress.style.width = "100%";
+        }
+
+
+    </script>
+
+</body>
+
+</html>

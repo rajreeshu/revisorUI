@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revision-Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../config/config.js"></script>
+    <script src="../config/cookies.js"></script>
+    <script>
+        checkCookieAndRedirect("auth", BASE_URL_UI + "/auth/auth.html");
+        var token = getCookie("auth");
+    </script>
+</head>
+
+<body style="margin:0px; padding:0px;">
+
+    <div id="header-component"></div>
+    <div id="body-component"></div>
+    <div id="footer-component"></div>
+
+    <script type="module">
+        import { ModularLibrary } from 'https://rajreeshu.github.io/modularFrontend/ModularLibrary.js';
+        const modularLibraryHeader = new ModularLibrary('abc', '#header-component');
+        // modularLibraryHeader.loadAndModifyComponent(BASE_URL_UI+'/header/header.html');
+        modularLibraryHeader.loadComponentAndModify(BASE_URL_UI + '/header/header.html', afterLoadingHeader);
+        modularLibraryHeader.modifyExternalStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        modularLibraryHeader.modifyExternalStylesheet('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+        modularLibraryHeader.modifyExternalStylesheet(BASE_URL_UI + '/header/header.css');
+
+
+        const modularLibrary = new ModularLibrary('abc', '#body-component');
+        modularLibrary.loadComponentAndModify(BASE_URL_UI + '/home/body.html', afterLoadingBody);
+        modularLibrary.modifyExternalStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        modularLibrary.modifyExternalStylesheet('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+        modularLibrary.modifyExternalStylesheet(BASE_URL_UI + '/home/body.css');
+
+
+    </script>
+    <script>
+        function afterLoadingHeader() {
+
+        }
+        function afterLoadingBody(mutationsList, observer) {
+            // Check if the body content has been fully loaded
+            const bodyLoaded = document.getElementById('categoryBox') !== null;
+
+            // If the body is loaded and the observer exists
+            if (bodyLoaded && observer) {
+                // Disconnect the observer to prevent further executions
+                observer.disconnect();
+
+                // Call getAllCategory to fetch categories
+                showAllCategory();
+                
+            }
+        }
+
+        function showAllCategory(){
+            getAllCategory()
+                    .then(categories => {
+                        // Check if categories exist
+                        // if (categories && categories.length > 0) {
+                            // If categories exist, display them
+                            displayCategories(categories);
+                        // } else {
+                        //     console.log("No categories found.");
+                        // }
+                    })
+                    .catch(error => {
+                        // Handle errors here or display an error message
+                        console.error('Error fetching categories:', error);
+                    });
+        }
+
+        // getAllCategory();
+
+        function getAllCategory() {
+            return fetch(`${BASE_URL_SERVER}/categories`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch categories');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    // Handle errors here or propagate the error further
+                    console.error('Error fetching categories:', error.message);
+                    
+                });
+        }
+
+        // Function to display categories
+        function displayCategories(categories) {
+            const categoryList = document.getElementById('categoryBox'); // Assuming you have a div with id 'categoryBox' to display categories
+            categoryList.innerHTML = ''; // Clear previous content
+
+            let categoryElement = '';
+
+            categories.forEach(category => {
+                categoryElement += `
+            <a href="${BASE_URL_UI}/reviseSection/revise.html?category=${category.category}" class="w-50_abc pr-3_abc pb-4_abc a_tag_abc row-6">
+                <div class="card_abc border-0_abc border-bottom-red_abc shadow-lg_abc shadow-hover_abc div_tag_abc">
+                    <div class="card-body_abc text-center_abc div_tag_abc">
+                        <div class="text-center_abc div_tag_abc">
+                            <i class="fa_abc fa-pencil_abc fa-4x_abc my-2_abc i_tag_abc"></i>
+                        </div>
+                        ${category.category}
+                    </div>
+                </div>
+            </a>`;
+                console.log(category.category);
+            });
+
+            // Append HTML for adding category
+            categoryElement += `
+            <!-- Container for the add category button and form -->
+            
+        <div href="#" id="addCategoryContainer" class="w-50_abc pr-3_abc pb-4_abc a_tag_abc row-6" style="text-decoration:none;">
+            <div   class="card_abc border-0_abc border-bottom-red_abc shadow-lg_abc shadow-hover_abc div_tag_abc"  style="background: #c1c1c154; border: 2px dashed white !important;">
+                <div onclick="addCategoryButton()" id="addCategoryButton" class="card-body_abc text-center_abc div_tag_abc">
+                    <span style="font-size:25px;">+</span> <br> Add Category
+                </div>
+
+                <!-- Hidden Form for Adding Category -->
+                <div id="addCategoryForm" class="add-category-form card-body_abc" style="display: none;">
+                    <div class="row_abc">
+                    <input type="text" id="categoryName" class="form-control_abc  mr-1_abc" name="categoryName" placeholder="Category Name"/>
+                    <button onclick="submitCategory()" class="btn_abc btn-primary_abc m-1_abc">Submit</button>
+                    </row>
+                </div>
+
+            </div>
+        </div>
+
+    
+
+`;
+
+            // Update categoryList with generated HTML
+            categoryList.innerHTML = categoryElement;
+        }
+
+        function addCategoryButton() {
+
+            // event.preventDefault(); // Prevent the default anchor action
+            element = document.getElementById("addCategoryButton");
+            console.log("add Category Click");
+            element.style.display = "none"; // Hide the add button
+            document.getElementById("addCategoryForm").style.display = "block"; // Show the form
+        };
+
+        function submitCategory() {
+            var categoryName = document.getElementById("categoryName").value;
+            fetch(`${BASE_URL_SERVER}/categories`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+                body: JSON.stringify({
+                    category: categoryName
+                })
+            })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data);
+                    showAllCategory();
+
+                } )
+                .catch((error) => console.error('Error:', error));
+
+            console.log("Submitting Category:", categoryName);
+            // Optionally, reset the view back to the initial state after submission
+        }
+
+
+    </script>
+</body>
+
+</html>

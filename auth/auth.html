@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revision-Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="margin:0px; padding:0px;">
+
+    <div id="header-component"></div>
+    <div id="body-component"></div>
+    <div id="footer-component"></div>
+
+    <script src="../config/config.js"></script>
+    <script src="../config/cookies.js"></script>
+
+    <script type="module">
+        import { ModularLibrary } from 'https://rajreeshu.github.io/modularFrontend/ModularLibrary.js';
+        const modularLibraryHeader = new ModularLibrary('abc', '#header-component');
+        modularLibraryHeader.loadAndModifyComponent(BASE_URL_UI + '/header/header.html');
+        modularLibraryHeader.modifyExternalStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        modularLibraryHeader.modifyExternalStylesheet('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+        modularLibraryHeader.modifyExternalStylesheet(BASE_URL_UI + '/header/header.css');
+
+
+        const modularLibrary = new ModularLibrary('abc', '#body-component');
+        // modularLibrary.loadAndModifyComponent(BASE_URL+'/auth/body.html');
+        modularLibrary.loadComponentAndModify(BASE_URL_UI + '/auth/body.html', mainBodyComponent);
+        modularLibrary.modifyExternalStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        modularLibrary.modifyExternalStylesheet('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+        modularLibrary.modifyExternalStylesheet(BASE_URL_UI + '/auth/body.css');
+
+        function mainBodyComponent() {
+            document.getElementById('logout').style.display = 'none';
+            var loginButton = document.getElementById("loginButton");
+            var registerButton = document.getElementById("registerButton");
+
+            var loginForm = document.querySelector(".front_abc");
+            var signUpForm = document.querySelector(".back_abc");
+
+            loginButton.onclick = function (e) {
+                e.preventDefault();
+                document.querySelector("#flipper").classList.toggle("flip_abc");
+                console.log(loginForm)
+                signUpForm.style.display = "block";
+                loginForm.style.display = "none";
+            }
+
+            registerButton.onclick = function (e) {
+                e.preventDefault();
+                document.querySelector("#flipper").classList.toggle("flip_abc");
+                console.log(signUpForm)
+                signUpForm.style.display = "none";
+                loginForm.style.display = "block";
+            }
+
+            document.getElementById("registerUserSubmit").onclick = function (e) {
+                registerUser();
+            }
+
+            document.getElementById("loginSubmit").onclick = function (e) {
+                loginUser();
+            }
+
+
+        }
+
+        function registerUser() {
+            const userData = {
+                name: document.getElementById('signupName').value,
+                email: document.getElementById('signupEmail').value,
+                password: document.getElementById('signupPassword').value,
+                gender: document.getElementById('signupGender').value // Ensure you have a gender input in your form
+            };
+
+            fetch(BASE_URL_SERVER + '/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+                .then(response => {
+                    console.log(response)
+                })
+                .then(data => {
+                    console.log('User added:', data);
+                    alert('User added successfully');
+                    document.querySelector("#flipper").classList.toggle("flip_abc");
+                    var loginForm = document.querySelector(".front_abc");
+                    var signUpForm = document.querySelector(".back_abc");
+                    signUpForm.style.display = "none";
+                    loginForm.style.display = "block";
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert("Something went wrong!")
+                    // Handle errors here, such as showing an error message to the user
+                });
+        }
+
+        function loginUser(email, password) {
+            const url = new URL(BASE_URL_SERVER + '/auth/login');
+            const userData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+            console.log(userData);
+
+            fetch(url, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+                
+            })
+                .then(response => {
+                    // Check if the response is successful
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the data (the counts)
+                    console.log('Question counts:', data);
+                    setCookie("auth", data.token, 7);
+                    window.location.href = BASE_URL_UI + '/home/home.html';
+
+                    // updateLeetcodeStyleProgressBar(data['EASY'], data['MEDIUM'], data['HARD']);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Fetching question counts failed:', error);
+                    alert("Something went wrong!")
+                });
+
+
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

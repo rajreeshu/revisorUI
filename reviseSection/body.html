@@ -1,0 +1,169 @@
+<header class="masthead">
+    <div class="container">
+
+        <div class="meta" id="addQuestion">
+            <a class="meta-child" href="#">
+                <div class="author"></div><br> 
+                <div class="meta-text">Add Question</div>      
+            </a> 
+        </div>
+        <div class="row align-items-center">       
+            <div class="col-lg-7 py-5">
+                <!-- Status Bar -->
+                <div id="leetcodeStyleProgressBarContainer">
+                    <div id="leetcodeEasyProgress" class="leetcodeProgressSegment">
+                        <span id="easyCountText"></span>
+                    </div>
+                    <div id="leetcodeMediumProgress" class="leetcodeProgressSegment">
+                        <span id="mediumCountText"></span>
+                    </div>
+                    <div id="leetcodeHardProgress" class="leetcodeProgressSegment">
+                        <span id="hardCountText"></span>
+                    </div>
+                </div>
+
+                <!--  -->
+                <h2 class="m-2" style="text-align: justify;">Start Bootstrap creates free, open source, MIT license, Bootstrap <a
+                        href="#">themes</a>, <a href="#">templates</a>, and <a href="#">code snippets</a> for you to use
+                    on any project, <a href="#">guides</a> to help you learn more about designing and developing with
+                    the Bootstrap framework, and premium Bootstrap products.</h2>
+            </div>
+            <div class="col-lg-5">
+                <div class="py-5 px-4 masthead-cards">
+                    <div class="">
+                        <div href="#" class=" pr-3 pb-4 d-flex justify-content-center">
+                            <div class="card border-0 border-bottom-red shadow-lg shadow-hover start">
+                                <div class="card-body text-center">
+                                    <div class="text-center">
+                                        <img src="https://www.freeiconspng.com/uploads/start-green-play-icon-1.png"
+                                            class="startLogo">
+                                    </div>
+                                    <span class="startText">Start</span>
+                                </div>
+                            </div>
+                            </a>
+
+                        </div>
+                        <div class="shape"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</header>
+
+<!-- Show Modal Structure --> 
+<div id="questionModal" class="modal">
+    <div class="modal-content">
+		<span class="close-modal" onclick="closeModal()">&times;</span>
+
+        <h4>Question</h4>
+        <p id="questionText">Loading...</p>
+
+        <h5>Description</h5>
+        <pre id="showQuestionDescription" class="showQuestionDescription">Please Wait..</pre>
+
+        <div id="solutionMaster" class="solutionMaster" style="display: none;">
+        <label>Solution:</label>
+        <pre class="solution" id="solution">
+          Still Loading...
+
+        </pre>
+    </div>
+
+        
+
+
+        <div class="modal-footer">
+            <div class="emoji-master">
+                <div class="dvicon">
+                    <div class="dvcenter">
+                        <!-- First Emoji Container -->
+                        <div class="emoji-container" data-label="HARD" onclick="updateQuestionLabel('HARD')">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f975/emoji.svg" alt="Emoji"
+                                class="static-emoji">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f975/512.gif" alt="Emoji"
+                                class="animated-emoji">
+                                <span class="emoji-label">Bad</span>
+                        </div>
+    
+                        <!-- Second Emoji Container -->
+                        <div class="emoji-container" data-label="MEDIUM" onclick="updateQuestionLabel('MEDIUM')">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f979/emoji.svg" alt="Emoji"
+                                class="static-emoji">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f979/512.gif" alt="Emoji"
+                                class="animated-emoji">
+                                <span class="emoji-label">Ok</span>
+                        </div>
+
+                        <div class="emoji-container" data-label="EASY" onclick="updateQuestionLabel('EASY')">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/emoji.svg" alt="Emoji"
+                            class="static-emoji">
+                        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/512.gif" alt="Emoji"
+                            class="animated-emoji">
+ 
+                                <span class="emoji-label">Good</span>
+                        </div>
+    
+    
+     
+                        <!-- Third Emoji Container -->
+                       
+                    </div>    
+                </div> 
+    
+                <button onclick="toggleAnswerVisibility()" class="btn btn-success">Show Answer</button>
+            </div>
+            
+            <!-- <button onclick="closeModal()" class="btn btn-danger">Close</button> -->
+        </div> 
+        </pre> 
+
+    </div>
+</div>
+ 
+<!-- Add Question Model -->
+
+<div id="addQuestionModal" class="modal">
+    <div class="modal-content">
+        <h4>Add Question</h4> 
+        <!-- Question Input field --> 
+        <label for="questionTitle">Question Title:</label>
+        <input type="text" id="questionTitle" class="form-control mb-2"
+            placeholder="Enter your question Title..."></textarea>
+
+        <label for="questionInput">Question Description:</label>
+        <textarea id="questionInput" class="form-control mb-2" placeholder="Enter your question Description..."
+            style="min-height: 150px;"></textarea> 
+
+        <!-- Solution Input Field -->
+        <label for="solutionInput">Solution:</label>
+        <textarea  class="form-control" placeholder="Enter the solution here..."
+            style="min-height: 100px;" id ="solutionInput"></textarea>
+
+        <div class="modal-footer">
+            <button onclick="saveQuestion()" class="btn btn-success">Save</button>
+            <button onclick="closeAddQuestionModal()" class="btn btn-danger">Close</button>
+        </div>
+        </pre>
+
+    </div>
+</div>
+
+<div style="position: absolute; z-index: 2;">
+<div class="toast">
+    <div class="toast-content ">
+      <img src="https://th.bing.com/th/id/R.9c88df48e24182943ba4945b92aa3704?rik=ng8QDZfIeaOAvg&riu=http%3a%2f%2fclipart-library.com%2fimages%2fgTeEegLRc.png&ehk=rFKFF6hVaGBnpA8yieOD6YZvrGTf6%2fiafNKrPlbD7a8%3d&risl=&pid=ImgRaw&r=0" alt="" style="width:40px; object-fit: cover;">
+  
+      <div class="message">
+        <h5 class="text text-1" id="alertHeading">Success</h5> 
+        <span class="text text-2" id="alertText">Your changes has been saved</span>
+      </div>
+    </div>  
+    <span class="close" onclick="closeAlertToast()">X</span>  
+    
+    <div class="progress"></div>  
+  </div>
+</div>
+  
