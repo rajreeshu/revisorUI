@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/ezyitias/public_html/reeshu/projectgallery/revisor
+    - export DEPLOYPATH=/home/ezyitias/reeshu/projectgallery/revisor
     - /bin/cp -R * $DEPLOYPATH
