@@ -111,41 +111,33 @@
             console.log(userData);
 
             fetch(url, {
-                method:'POST',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(userData)
-                
+
             })
                 .then(response => {
-                    // Check if the response is successful
                     if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                        // Convert non-2xx HTTP responses into errors
+                        return response.text().then(text => {throw new Error(text || 'Unknown error')});
                     }
-                    console.log(response);
                     return response.json();
                 })
                 .then(data => {
                     // Handle the data (the counts)
-                    console.log('Question counts:', data);
+                    console.log("Authentication successful", data);
                     setCookie("auth", data.token, 7);
                     window.location.href = BASE_URL_UI + '/home/home.html';
 
                     // updateLeetcodeStyleProgressBar(data['EASY'], data['MEDIUM'], data['HARD']);
                 })
                 .catch(error => {
-                    // Handle any errors
-                    console.error('Fetching question counts failed:', error);
-                    alert("Something went wrong!")
+                    console.error("Authentication error:", error);
+                    alert("Login failed: " + error.message);
                 });
-
-
         }
-
-
-
-
     </script>
 </body>
 
