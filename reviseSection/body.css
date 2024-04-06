@@ -548,4 +548,9 @@ label {
   .toast.active ~ button {
     pointer-events: none;
   }
+
+  .btn{
+    border: 2px solid white !important;
+    color: white !important     ;
+  }
   

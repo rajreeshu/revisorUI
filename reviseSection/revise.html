@@ -74,11 +74,14 @@
     <script>
         // Get the URLSearchParams object from the current URL
         const urlParams = new URLSearchParams(window.location.search);
-        const categoryValue = urlParams.get('category');
+        const categoryId = urlParams.get('category');
+        let randomQuestionNo = 0;
+        console.log("categoryId: " + categoryId);
+        // const categoryValue = urlParams.get('category');
         if (categoryValue == null || categoryValue == "") {
             window.location.href = `${BASE_URL_UI}/home/home.html`;
         }
-        
+
 
         var userId = getCookie("userId");
         // Function to update progress bars
@@ -131,7 +134,7 @@
         }
 
         function loadProgress(mutationsList, observer) {
-            document.getElementById('categoryName').innerText = categoryValue;
+            // document.getElementById('categoryName').innerText = categoryValue;
             console.log('Checking progress');
 
             // Perform the update only if specific conditions are met
@@ -165,7 +168,7 @@
                 title: questionTitle,
                 description: questionDescription,
                 solution: solution,
-                category: categoryValue,
+                categoryId: categoryId,
                 label: "HARD"
             };
 
@@ -192,21 +195,22 @@
                 .then(data => {
                     console.log('Question saved successfully', data);
                     closeAddQuestionModal();
-                    
+
                     document.getElementById('questionTitle').value = "";
                     document.getElementById('questionInput').value = "";
                     document.getElementById('solutionInput').value = "";
-                    fetchQuestionCounts()
+                    fetchQuestionCounts();
                     showToastAlert("Saved", "Question saved successfully.", "Success");
+                    loadCategoryDetails();
                 })
                 .catch(error => {
                     console.error('Error saving question:', error);
                 });
         }
-        let randomQuestionNo = 0;
+
         function openRandomQuestionModal() {
 
-            fetch(`${BASE_URL_SERVER}/questions/random-question/${categoryValue}`, {
+            fetch(`${BASE_URL_SERVER}/questions/random-question/${categoryId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -218,7 +222,7 @@
                     return response.json()
                 })
                 .then(data => {
-                    console.log(data);
+                    console.log(data.id);
                     randomQuestionNo = data.id;
                     document.getElementById('questionText').innerText = data.title; // Assuming 'title' is a field of your Question object
                     document.getElementById('solution').innerText = data.solution; // Assuming 'solution' is a field of your Question object
@@ -240,11 +244,11 @@
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log("success:"+data); // Handle the response data
-                    
+                    console.log("success:" + data); // Handle the response data
+
                     fetchQuestionCounts();
                     showToastAlert("Updated", "Question Status Successfully Updated", "Success");
-                    
+
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -254,7 +258,7 @@
         function fetchQuestionCounts() {
 
             // URL of the endpoint
-            const url = `${BASE_URL_SERVER}/questions/count/${categoryValue}`;
+            const url = `${BASE_URL_SERVER}/questions/count/${categoryId}`;
             console.log("inside fetchQUestionCount ", url)
 
             fetch(url, {
@@ -285,8 +289,115 @@
             console.log("after fetch");
         }
 
+        function fetchCategoryDetails() {
+            let contentDiv = document.getElementById('listAllQuestions');
+            if (contentDiv.innerHTML != "") {
+                contentDiv.innerHTML = "";
+                return;
+            } else {
+                if (!confirm("Are you sure want to View the Question List? \nThis Practice is not encouraged.")) {
+                    return;
+                }
+            }
+            loadCategoryDetails();
+        }
+
+        function loadCategoryDetails(){
+            const url = `${BASE_URL_SERVER}/categories/${categoryId}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA   // Assuming you're using Bearer token authentication
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // If the server response is not OK, throw an error with the status
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();  // Parse the JSON response
+                })
+                .then(categoryDetail => {
+                    console.log('Category Detail:', categoryDetail);
+                    // Handle the data, e.g., display in the UI
+                    displayQuestionList(categoryDetail);
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Failed to fetch category details. Please try again.');
+                });
+        }
+
+        function displayQuestionList(categoryDetail) {
+            const questionList = categoryDetail.questions; // Array of question objects
+            const listContainer = document.getElementById('listAllQuestions'); // Assuming this is the container where you want to display the questions
+
+            // Clear previous contents
+            listContainer.innerHTML = '';
+
+            // Check if there are questions to display
+
+            if (questionList && questionList.length > 0) {
+                // Create a list element to hold all questions
+                // const ul = document.createElement('ol');
+                let dataHtml = "<ol>";
+
+                // Loop through each question and create list items
+                questionList.forEach(question => {
+                    // const li = document.createElement('li');
+                    // Create content for each question, you might want to adjust what is displayed
+                    dataHtml += `<li style='margin-bottom:10px;'><a class="btn_abc btn-primary" onclick="removeQuestion(${question.id})">Remove</a> &nbsp; <strong>Question:</strong> ${question.title || 'No title provided'}<br>
+                            <em>Description:</em> ${question.description || 'No description available'}</li>`;
+                    //    Add the list item to the unordered list
+                });
+                dataHtml += "</ol>";
+                listContainer.innerHTML = dataHtml;
+
+                // listContainer.appendChild(ul); // Append the unordered list to the container
+            } else {
+                // Display a message if there are no questions
+                listContainer.innerHTML = '<p>No questions available for this category.</p>';
+            }
+        }
+
+        function removeQuestion(questionId) {
+            if(!confirm('Are you sure want to Delete this Question? \nThis can not be undone.')) {
+                return;
+            }
+            const url = `${BASE_URL_SERVER}/questions/${questionId}`; // Replace BASE_URL_SERVER with the actual server URL
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA  // Replace TOKEN_DATA with your actual auth token
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // If the server response is not OK, it means the question wasn't found or couldn't be deleted
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();  // Assuming the server returns a simple text message
+                })
+                .then(message => {
+                    console.log('Success:', message);
+                    alert('Question deleted successfully');  // Show a success message to the user
+                    loadCategoryDetails();
+                    // Optionally, you can refresh the list of questions or update the UI accordingly
+                    // For example, remove the question element from the DOM or reload the page
+                })
+                .catch(error => {
+                    console.error('Delete operation failed:', error);
+                    alert(`Failed to delete question: ${error.message}`);
+                });
+        }
+
+
+
+
         function showToastAlert(heading, text, type) {
-            console.log(heading,text,type);
+            console.log(heading, text, type);
             progress = document.querySelector(".progress_abc");
             let timer1 = 0, timer2 = 0;
 
