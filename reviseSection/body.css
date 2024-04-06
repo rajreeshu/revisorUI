@@ -253,7 +253,7 @@ body{margin-top:20px;}
 .modal {
     display: none; /* Hidden by default */ 
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */ 
+    z-index: 1 !important; /* Sit on top */ 
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -451,13 +451,13 @@ label {
     right: 20px;
     border-radius: 12px;
     min-width:300px;
-    background: #fff; 
+    background: #fff !important; 
     padding: 20px 35px 20px 25px;
     box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     /* transform: translateX(calc(100% + 30px)); */
     transition: all 2s cubic-bezier(0.68, -0.55, 0.265, 1.35);
-    opacity: 1;
+    opacity: 1 !important;
     display: none;  
   }
   

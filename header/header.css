@@ -75,7 +75,7 @@ background:#d63327;
 }
 .logo{
 	position: relative;
-    z-index: 100;
+    /* z-index: 100; */
   border:2px solid #fff;
   border-radius:3px;
   text-decoration:none;

@@ -51,25 +51,25 @@
 
                 // Call getAllCategory to fetch categories
                 showAllCategory();
-                
+
             }
         }
 
-        function showAllCategory(){
+        function showAllCategory() {
             getAllCategory()
-                    .then(categories => {
-                        // Check if categories exist
-                        // if (categories && categories.length > 0) {
-                            // If categories exist, display them
-                            displayCategories(categories);
-                        // } else {
-                        //     console.log("No categories found.");
-                        // }
-                    })
-                    .catch(error => {
-                        // Handle errors here or display an error message
-                        console.error('Error fetching categories:', error);
-                    });
+                .then(categories => {
+                    // Check if categories exist
+                    // if (categories && categories.length > 0) {
+                    // If categories exist, display them
+                    displayCategories(categories);
+                    // } else {
+                    //     console.log("No categories found.");
+                    // }
+                })
+                .catch(error => {
+                    // Handle errors here or display an error message
+                    console.error('Error fetching categories:', error);
+                });
         }
 
         // getAllCategory();
@@ -91,7 +91,7 @@
                 .catch(error => {
                     // Handle errors here or propagate the error further
                     console.error('Error fetching categories:', error.message);
-                    
+
                 });
         }
 
@@ -103,10 +103,12 @@
             let categoryElement = '';
 
             categories.forEach(category => {
+                console.log(category);
                 categoryElement += `
             <a href="${BASE_URL_UI}/reviseSection/revise.html?category=${category.category}" class="w-50_abc pr-3_abc pb-4_abc a_tag_abc row-6">
                 <div class="card_abc border-0_abc border-bottom-red_abc shadow-lg_abc shadow-hover_abc div_tag_abc">
                     <div class="card-body_abc text-center_abc div_tag_abc">
+                        <span class="deleteCategory" onclick="event.preventDefault(); deleteCategory(${category.id}); return false;" style="position: relative;top: -1rem;float: right;right: -1rem;font-family: cursive;color: #d30707;">X</span>
                         <div class="text-center_abc div_tag_abc">
                             <i class="fa_abc fa-pencil_abc fa-4x_abc my-2_abc i_tag_abc"></i>
                         </div>
@@ -123,7 +125,7 @@
             
         <div href="#" id="addCategoryContainer" class="w-50_abc pr-3_abc pb-4_abc a_tag_abc row-6" style="text-decoration:none;">
             <div   class="card_abc border-0_abc border-bottom-red_abc shadow-lg_abc shadow-hover_abc div_tag_abc"  style="background: #c1c1c154; border: 2px dashed white !important;">
-                <div onclick="addCategoryButton()" id="addCategoryButton" class="card-body_abc text-center_abc div_tag_abc">
+                <div onclick="addCategoryButton()" id="addCategoryButton" class="card-body_abc text-center_abc div_tag_abc" style="cursor:pointer;">
                     <span style="font-size:25px;">+</span> <br> Add Category
                 </div>
 
@@ -168,15 +170,49 @@
                 })
             })
                 .then(response => response.json())
-                .then(data =>{
+                .then(data => {
                     console.log(data);
                     showAllCategory();
 
-                } )
+                })
                 .catch((error) => console.error('Error:', error));
 
             console.log("Submitting Category:", categoryName);
             // Optionally, reset the view back to the initial state after submission
+        }
+
+
+
+        function deleteCategory(categoryId) {
+            console.log("Deleting Category:" + categoryId);
+
+            const url = `${BASE_URL_SERVER}/categories/${categoryId}`;
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': TOKEN_DATA
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Handle response errors, such as category not found or user not authorized to delete the category
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.text();  // or return response.text() if no JSON is returned
+                })
+                .then(data => {
+                    console.log("success:"+data);  // Handle successful deletion, such as updating the UI or notifying the user
+                    alert("success:"+data);
+                    showAllCategory();
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    alert("Categgory Deletion Faild.");
+                    showAllCategory();
+                    // Handle any errors that occurred during fetch
+                });     
         }
 
 

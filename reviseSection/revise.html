@@ -74,7 +74,7 @@
         // Get the URLSearchParams object from the current URL
         const urlParams = new URLSearchParams(window.location.search);
         const categoryValue = urlParams.get('category');
-        if(categoryValue == null || categoryValue==""){
+        if (categoryValue == null || categoryValue == "") {
             window.location.href = `${BASE_URL_UI}/home/home.html`;
         }
 
@@ -189,11 +189,12 @@
                 .then(data => {
                     console.log('Question saved successfully', data);
                     closeAddQuestionModal();
-                    showToastAlert("Saved", "Question saved successfully.", "Success");
+                    
                     document.getElementById('questionTitle').value = "";
                     document.getElementById('questionInput').value = "";
                     document.getElementById('solutionInput').value = "";
                     fetchQuestionCounts()
+                    showToastAlert("Saved", "Question saved successfully.", "Success");
                 })
                 .catch(error => {
                     console.error('Error saving question:', error);
@@ -220,6 +221,7 @@
                     document.getElementById('solution').innerText = data.solution; // Assuming 'solution' is a field of your Question object
                     document.getElementById('showQuestionDescription').innerText = data.description;
                     document.getElementById('questionModal').style.display = 'block'; // Show the modal
+                    makeLinksClickable();
                 })
                 .catch(error => console.error('Error fetching question:', error));
         }
@@ -235,9 +237,11 @@
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data); // Handle the response data
-                    fetchQuestionCounts()
+                    console.log("success:"+data); // Handle the response data
+                    
+                    fetchQuestionCounts();
                     showToastAlert("Updated", "Question Status Successfully Updated", "Success");
+                    
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -279,6 +283,7 @@
         }
 
         function showToastAlert(heading, text, type) {
+            console.log(heading,text,type);
             progress = document.querySelector(".progress_abc");
             let timer1 = 0, timer2 = 0;
 
@@ -304,6 +309,19 @@
             $(".toast_abc").hide();
             progress.style.width = "100%";
         }
+
+        function makeLinksClickable() {
+            const descriptionElement = document.getElementById('showQuestionDescription');
+            if (descriptionElement) {
+                let text = descriptionElement.textContent;
+                const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                text = text.replace(urlRegex, function (url) {
+                    return '<a href="' + url + '" target="_blank">' + url + '</a>';
+                });
+                descriptionElement.innerHTML = text;
+            }
+        }
+
 
 
     </script>

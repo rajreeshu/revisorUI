@@ -1,13 +1,13 @@
 <header class="masthead">
     <div class="container">
 
-        <div class="meta" id="addQuestion">
-            <a class="meta-child" href="#">
-                <div class="author"></div><br> 
-                <div class="meta-text">Add Question</div>      
-            </a> 
+        <div class="meta">
+            <a class="meta-child" href="#" id="addQuestion">
+                <div class="author"></div><br>
+                <div class="meta-text">Add Question</div>
+            </a>
         </div>
-        <div class="row align-items-center">       
+        <div class="row align-items-center">
             <div class="col-lg-7 py-5">
                 <!-- Status Bar -->
                 <div id="leetcodeStyleProgressBarContainer">
@@ -23,7 +23,8 @@
                 </div>
 
                 <!--  -->
-                <h2 class="m-2" style="text-align: justify;">Forget stressing over studying! Our app makes learning feel like fun time.
+                <h2 class="m-2" style="text-align: justify;">Forget stressing over studying! Our app makes learning feel
+                    like fun time.
 
                     Just grab your phone, relax, and let's make studying a piece of cake!</h2>
             </div>
@@ -52,10 +53,10 @@
 
 </header>
 
-<!-- Show Modal Structure --> 
+<!-- Show Modal Structure -->
 <div id="questionModal" class="modal">
     <div class="modal-content">
-		<span class="close-modal" onclick="closeModal()">&times;</span>
+        <span class="close-modal" onclick="closeModal()">&times;</span>
 
         <h4>Question</h4>
         <p id="questionText">Loading...</p>
@@ -64,14 +65,14 @@
         <pre id="showQuestionDescription" class="showQuestionDescription">Please Wait..</pre>
 
         <div id="solutionMaster" class="solutionMaster" style="display: none;">
-        <label>Solution:</label>
-        <pre class="solution" id="solution">
+            <label>Solution:</label>
+            <pre class="solution" id="solution">
           Still Loading...
 
         </pre>
-    </div>
+        </div>
 
-        
+
 
 
         <div class="modal-footer">
@@ -84,62 +85,62 @@
                                 class="static-emoji">
                             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f975/512.gif" alt="Emoji"
                                 class="animated-emoji">
-                                <span class="emoji-label">Bad</span>
+                            <span class="emoji-label">Bad</span>
                         </div>
-    
+
                         <!-- Second Emoji Container -->
                         <div class="emoji-container" data-label="MEDIUM" onclick="updateQuestionLabel('MEDIUM')">
                             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f979/emoji.svg" alt="Emoji"
                                 class="static-emoji">
                             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f979/512.gif" alt="Emoji"
                                 class="animated-emoji">
-                                <span class="emoji-label">Ok</span>
+                            <span class="emoji-label">Ok</span>
                         </div>
 
                         <div class="emoji-container" data-label="EASY" onclick="updateQuestionLabel('EASY')">
                             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/emoji.svg" alt="Emoji"
-                            class="static-emoji">
-                        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/512.gif" alt="Emoji"
-                            class="animated-emoji">
- 
-                                <span class="emoji-label">Good</span>
+                                class="static-emoji">
+                            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f600/512.gif" alt="Emoji"
+                                class="animated-emoji">
+
+                            <span class="emoji-label">Good</span>
                         </div>
-    
-    
-     
+
+
+
                         <!-- Third Emoji Container -->
-                       
-                    </div>    
-                </div> 
-    
+
+                    </div>
+                </div>
+
                 <button onclick="toggleAnswerVisibility()" class="btn btn-success">Show Answer</button>
             </div>
-            
+
             <!-- <button onclick="closeModal()" class="btn btn-danger">Close</button> -->
-        </div> 
-        </pre> 
+        </div>
+        </pre>
 
     </div>
 </div>
- 
+
 <!-- Add Question Model -->
 
 <div id="addQuestionModal" class="modal">
     <div class="modal-content">
-        <h4>Add Question</h4> 
-        <!-- Question Input field --> 
+        <h4>Add Question</h4>
+        <!-- Question Input field -->
         <label for="questionTitle">Question Title:</label>
         <input type="text" id="questionTitle" class="form-control mb-2"
             placeholder="Enter your question Title..."></textarea>
 
         <label for="questionInput">Question Description:</label>
         <textarea id="questionInput" class="form-control mb-2" placeholder="Enter your question Description..."
-            style="min-height: 150px;"></textarea> 
+            style="min-height: 150px;"></textarea>
 
         <!-- Solution Input Field -->
         <label for="solutionInput">Solution:</label>
-        <textarea  class="form-control" placeholder="Enter the solution here..."
-            style="min-height: 100px;" id ="solutionInput"></textarea>
+        <textarea class="form-control" placeholder="Enter the solution here..." style="min-height: 100px;"
+            id="solutionInput"></textarea>
 
         <div class="modal-footer">
             <button onclick="saveQuestion()" class="btn btn-success">Save</button>
@@ -151,18 +152,18 @@
 </div>
 
 <div style="position: absolute; z-index: 2;">
-<div class="toast">
-    <div class="toast-content ">
-      <img src="https://th.bing.com/th/id/R.9c88df48e24182943ba4945b92aa3704?rik=ng8QDZfIeaOAvg&riu=http%3a%2f%2fclipart-library.com%2fimages%2fgTeEegLRc.png&ehk=rFKFF6hVaGBnpA8yieOD6YZvrGTf6%2fiafNKrPlbD7a8%3d&risl=&pid=ImgRaw&r=0" alt="" style="width:40px; object-fit: cover;">
-  
-      <div class="message">
-        <h5 class="text text-1" id="alertHeading">Success</h5> 
-        <span class="text text-2" id="alertText">Your changes has been saved</span>
-      </div>
-    </div>  
-    <span class="close" onclick="closeAlertToast()">X</span>  
-    
-    <div class="progress"></div>  
-  </div>
+    <div class="toast">
+        <div class="toast-content ">
+            <img src="https://th.bing.com/th/id/R.9c88df48e24182943ba4945b92aa3704?rik=ng8QDZfIeaOAvg&riu=http%3a%2f%2fclipart-library.com%2fimages%2fgTeEegLRc.png&ehk=rFKFF6hVaGBnpA8yieOD6YZvrGTf6%2fiafNKrPlbD7a8%3d&risl=&pid=ImgRaw&r=0"
+                alt="" style="width:40px; object-fit: cover;">
+
+            <div class="message">
+                <h5 class="text text-1" id="alertHeading">Success</h5>
+                <span class="text text-2" id="alertText">Your changes has been saved</span>
+            </div>
+        </div>
+        <span class="close" onclick="closeAlertToast()">X</span>
+
+        <div class="progress"></div>
+    </div>
 </div>
-  
