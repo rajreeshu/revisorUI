@@ -56,6 +56,7 @@
         function checkAndModifyContent() {
 
             document.getElementById('homeLogo').setAttribute('href', BASE_URL_UI);
+            // document.getElementById('headingBracket').innerText = categoryValue;
         }
         headerModularLibrary.loadComponentAndModify(BASE_URL_UI + '/header/header.html', checkAndModifyContent);
 
@@ -77,6 +78,7 @@
         if (categoryValue == null || categoryValue == "") {
             window.location.href = `${BASE_URL_UI}/home/home.html`;
         }
+        
 
         var userId = getCookie("userId");
         // Function to update progress bars
@@ -129,6 +131,7 @@
         }
 
         function loadProgress(mutationsList, observer) {
+            document.getElementById('categoryName').innerText = categoryValue;
             console.log('Checking progress');
 
             // Perform the update only if specific conditions are met
