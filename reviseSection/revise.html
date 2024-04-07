@@ -77,8 +77,9 @@
         const categoryId = urlParams.get('category');
         let randomQuestionNo = 0;
         console.log("categoryId: " + categoryId);
-        // const categoryValue = urlParams.get('category');
-        if (categoryValue == null || categoryValue == "") {
+        var categoryValue = "";
+        var questionList = [];
+        if (categoryId == null || categoryId == "") {
             window.location.href = `${BASE_URL_UI}/home/home.html`;
         }
 
@@ -100,6 +101,8 @@
             document.getElementById('easyCountText').innerText = easyCount;
             document.getElementById('mediumCountText').innerText = mediumCount;
             document.getElementById('hardCountText').innerText = hardCount;
+
+            document.getElementById('categoryName').innerText = categoryValue;
         }
 
         // Function to show the modal
@@ -134,7 +137,7 @@
         }
 
         function loadProgress(mutationsList, observer) {
-            // document.getElementById('categoryName').innerText = categoryValue;
+            
             console.log('Checking progress');
 
             // Perform the update only if specific conditions are met
@@ -300,6 +303,7 @@
                 }
             }
             loadCategoryDetails();
+            displayQuestionList(questionList);
         }
 
         function loadCategoryDetails(){
@@ -320,17 +324,24 @@
                 })
                 .then(categoryDetail => {
                     console.log('Category Detail:', categoryDetail);
+                    // ;
                     // Handle the data, e.g., display in the UI
-                    displayQuestionList(categoryDetail);
+
+                    
+                    categoryValue=categoryDetail.category;
+                    questionList = categoryDetail.questions;
+                    // displayQuestionList(questionList);
+                    // document.getElementById('categoryName').innerText = categoryValue;
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
                     alert('Failed to fetch category details. Please try again.');
                 });
         }
+        loadCategoryDetails();
 
-        function displayQuestionList(categoryDetail) {
-            const questionList = categoryDetail.questions; // Array of question objects
+        function displayQuestionList(questionList) {
+            // const questionList = categoryDetail.questions; // Array of question objects
             const listContainer = document.getElementById('listAllQuestions'); // Assuming this is the container where you want to display the questions
 
             // Clear previous contents
