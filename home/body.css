@@ -6,7 +6,8 @@ body{margin-top:20px;}
     background-color: #dd3d31;
     background-image: url(https://startbootstrap.com/assets/img/overlay.svg), linear-gradient(45deg, #dd3d31 0%, #d22f23 100%);
     background-size: cover;
-    z-index: 0
+    z-index: 0;
+    min-height: 100vh;
 }
 
 .masthead svg.wave {
