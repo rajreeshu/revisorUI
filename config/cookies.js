@@ -27,9 +27,38 @@ function deleteCookie(name) {
 
 
 function checkCookieAndRedirect(cookieName, redirectTo="") {
-    //check if cookie is a valid cookie using backend
     const cookieValue = getCookie(cookieName);
-    if (!cookieValue) {
-        window.location.href = redirectTo;
+    let isExpired = false;
+    console.log(cookieValue);
+    // return;
+    //check if cookie is a valid cookie using backend
+    fetch(`${BASE_URL_SERVER}/auth/validateToken`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': TOKEN_DATA
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Error status:', response.status);
+                return response.text().then(text => { throw new Error(text) });
+            }
+            // if(response="") return {};
+            console.log(response);
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            isExpired = true;
+        }).catch(err => {
+            console.error('Error:', err);
+            window.location.href = redirectTo;
+        });
+
+    
+    if (!isExpired) {
+        console.log('Expired Token Redirecting',isExpired);
+        // window.location.href = redirectTo;
     }
 }

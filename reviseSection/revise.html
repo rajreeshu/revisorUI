@@ -193,23 +193,28 @@
                         console.error('Error status:', response.status);
                         return response.text().then(text => { throw new Error(text) });
                     }
+                    // if(response="") return {};
+                    console.log(response);
                     return response.json();
                 })
                 .then(data => {
-                    // console.log('Question saved successfully', data);
-                    console.log(data[0]['similar_texts']);
-                    let similarQuestion = data[0]['similar_texts'].filter(s => s[1] > 0.4);
+                    console.log(data);
+                    if (data.length>0) {
+                        console.log(data[0]['similar_texts']);
+                        let similarQuestion = data[0]['similar_texts'].filter(s => s[1] > 0.4);
 
-                    console.log(similarQuestion);
-                    if (similarQuestion.length > 0) {
-                        let count = 0; // Assuming count starts from 0
-                        let confirmationMessage = `Similar Questions are found, Please have a look:
+                        console.log(similarQuestion);
+                        if (similarQuestion.length > 0) {
+                            let count = 0; // Assuming count starts from 0
+                            let confirmationMessage = `Similar Questions are found, Please have a look:
                         ${similarQuestion.map(ele => '\n' + (`${++count}. ${ele[0]} (${parseInt(ele[1] * 100)}% similar)
                         `).trim())}\nAre you sure want to continue to Add this Question?`;
-                        if (!confirm(confirmationMessage)) {
-                            return;
+                            if (!confirm(confirmationMessage)) {
+                                return;
+                            }
                         }
                     }
+
 
                     finalSaveAPI(questionData);
                     // loadCategoryDetails();
