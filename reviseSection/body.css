@@ -438,8 +438,22 @@ label {
 	}
 	
 	.emoji-label{
-		margin-top:45px;
+		margin-top:38px;
 	}
+
+    .dvicon{
+        height: auto;
+    }
+
+    .dvcenter{
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 30px;
+    }
+
+    .dvcenter .emoji-container{
+        margin-top:20px;
+    }
 }
 
 /* Notification Toast */
